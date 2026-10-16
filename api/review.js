@@ -1,18 +1,22 @@
 export default async function handler(req, res) {
-  // Allow CORS
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   if (req.method === "OPTIONS") return res.status(200).end();
 
   const GROQ_API_KEY = process.env.GROQ_API_KEY;
 
+  // Debug: tell us exactly what's missing
   if (!GROQ_API_KEY) {
-    return res.status(500).json({ error: "API key not configured" });
+    return res.status(500).json({
+      error: "GROQ_API_KEY is missing",
+      hint: "Add it in Vercel → Settings → Environment Variables, then Redeploy",
+    });
   }
 
   const RESTAURANT_NAME = process.env.RESTAURANT_NAME || "India Bulls Mega Mall";
   const RESTAURANT_TYPE = process.env.RESTAURANT_TYPE || "shopping mall and food court";
-  const RESTAURANT_SPECIALTY = process.env.RESTAURANT_SPECIALTY || "variety of food options, shopping, and entertainment";
+  const RESTAURANT_SPECIALTY =
+    process.env.RESTAURANT_SPECIALTY || "variety of food options, shopping, and entertainment";
 
   const prompt = `Generate a short, genuine-sounding 5-star Google review for ${RESTAURANT_NAME}, a ${RESTAURANT_TYPE} known for ${RESTAURANT_SPECIALTY}. 
 Rules:
@@ -39,15 +43,23 @@ Rules:
       }),
     });
 
+    // Return the raw Groq error so we know what went wrong
     if (!response.ok) {
       const err = await response.text();
-      return res.status(500).json({ error: "Groq API error", details: err });
+      return res.status(500).json({
+        error: "Groq API returned an error",
+        status: response.status,
+        details: err,
+      });
     }
 
     const data = await response.json();
     const review = data.choices[0].message.content.trim();
     return res.status(200).json({ review });
   } catch (error) {
-    return res.status(500).json({ error: error.message });
+    return res.status(500).json({
+      error: "Fetch failed",
+      message: error.message,
+    });
   }
 }
