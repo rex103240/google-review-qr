@@ -36,7 +36,7 @@ Rules:
         Authorization: `Bearer ${GROQ_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "llama3-8b-8192",
+        model: "qwen/qwen3.8-27b",
         messages: [{ role: "user", content: prompt }],
         temperature: 1.2,
         max_tokens: 150,
