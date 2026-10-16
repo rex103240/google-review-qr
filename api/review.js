@@ -18,11 +18,17 @@ export default async function handler(req, res) {
   const RESTAURANT_SPECIALTY =
     process.env.RESTAURANT_SPECIALTY || "variety of food options, shopping, and entertainment";
 
+  const rawKeywords = req.query?.keywords || "";
+  const keywords = rawKeywords ? rawKeywords.split(",").map(k => k.trim()).filter(Boolean) : [];
+  const keywordLine = keywords.length
+    ? `- Naturally mention these specific aspects the customer highlighted: ${keywords.join(", ")}`
+    : "- Mention food quality, service, or ambience naturally";
+
   const prompt = `Generate a short, genuine-sounding 5-star Google review for ${RESTAURANT_NAME}, a ${RESTAURANT_TYPE} known for ${RESTAURANT_SPECIALTY}. 
 Rules:
 - 2-4 sentences max
 - Sound like a real happy customer, not a bot
-- Mention food quality, service, or ambience naturally
+${keywordLine}
 - Vary the writing style each time (casual, enthusiastic, simple, detailed)
 - No hashtags, no emojis, no "I highly recommend"
 - Do NOT start with "I" every time, vary the opening

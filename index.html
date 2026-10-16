@@ -21,8 +21,8 @@
     .card {
       background: #ffffff;
       border-radius: 16px;
-      padding: 40px 36px;
-      max-width: 440px;
+      padding: 36px 32px;
+      max-width: 460px;
       width: 100%;
       border: 1px solid #e2e8f0;
       box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
@@ -33,14 +33,14 @@
       display: flex;
       align-items: center;
       gap: 14px;
-      margin-bottom: 28px;
-      padding-bottom: 24px;
+      margin-bottom: 24px;
+      padding-bottom: 20px;
       border-bottom: 1px solid #e2e8f0;
     }
 
     .icon-wrap {
-      width: 48px;
-      height: 48px;
+      width: 46px;
+      height: 46px;
       background: #1d4ed8;
       border-radius: 12px;
       display: flex;
@@ -49,35 +49,82 @@
       flex-shrink: 0;
     }
 
-    .icon-wrap svg {
-      width: 24px;
-      height: 24px;
-      fill: white;
-    }
+    .icon-wrap svg { width: 22px; height: 22px; fill: white; }
 
     .header-text h1 {
-      font-size: 17px;
+      font-size: 16px;
       font-weight: 700;
       color: #0f172a;
-      letter-spacing: -0.3px;
+      letter-spacing: -0.2px;
     }
 
     .header-text p {
-      font-size: 13px;
+      font-size: 12.5px;
       color: #64748b;
       margin-top: 2px;
-      font-weight: 400;
     }
 
     /* Stars */
     .stars {
       text-align: center;
-      font-size: 28px;
+      font-size: 26px;
       letter-spacing: 3px;
+      margin-bottom: 24px;
+    }
+
+    /* Keyword section */
+    .kw-section {
       margin-bottom: 20px;
     }
 
-    /* Label */
+    .kw-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 10px;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .chip {
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      border: 1.5px solid #e2e8f0;
+      background: #f8fafc;
+      color: #475569;
+      transition: all 0.15s;
+      user-select: none;
+    }
+
+    .chip:hover {
+      border-color: #93c5fd;
+      color: #1d4ed8;
+      background: #eff6ff;
+    }
+
+    .chip.active {
+      border-color: #1d4ed8;
+      background: #1d4ed8;
+      color: #ffffff;
+    }
+
+    /* Divider */
+    hr {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 20px 0;
+    }
+
+    /* Section label */
     .section-label {
       font-size: 11px;
       font-weight: 600;
@@ -89,17 +136,19 @@
 
     /* Loading */
     .loader {
-      display: flex;
+      display: none;
       align-items: center;
       gap: 10px;
       color: #475569;
       font-size: 14px;
-      padding: 16px 0;
+      padding: 14px 0;
     }
 
+    .loader.show { display: flex; }
+
     .spinner {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       border: 2px solid #e2e8f0;
       border-top-color: #1d4ed8;
       border-radius: 50%;
@@ -115,11 +164,11 @@
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
-      padding: 16px;
+      padding: 15px;
       font-size: 14px;
       color: #334155;
-      line-height: 1.7;
-      margin-bottom: 20px;
+      line-height: 1.75;
+      margin-bottom: 16px;
       position: relative;
     }
 
@@ -128,14 +177,15 @@
     .copied-badge {
       display: none;
       position: absolute;
-      top: 12px;
-      right: 12px;
+      top: 10px;
+      right: 10px;
       background: #16a34a;
       color: white;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
       padding: 2px 8px;
       border-radius: 20px;
+      letter-spacing: 0.2px;
     }
 
     .copied-badge.show { display: block; }
@@ -146,11 +196,12 @@
       font-size: 13px;
       color: #1d4ed8;
       font-weight: 500;
-      margin-bottom: 16px;
-      padding: 10px 14px;
+      margin-bottom: 14px;
+      padding: 10px 13px;
       background: #eff6ff;
       border-radius: 8px;
       border: 1px solid #bfdbfe;
+      line-height: 1.5;
     }
 
     .step-hint.show { display: block; }
@@ -170,7 +221,7 @@
       font-family: 'Inter', sans-serif;
       cursor: pointer;
       text-decoration: none;
-      transition: opacity 0.15s, transform 0.1s;
+      transition: background 0.15s, transform 0.1s;
       margin-bottom: 10px;
     }
 
@@ -179,10 +230,15 @@
     .btn-primary {
       background: #1d4ed8;
       color: #ffffff;
-      display: none;
     }
 
     .btn-primary:hover { background: #1e40af; }
+
+    .btn-copy {
+      background: #1d4ed8;
+      color: #ffffff;
+      display: none;
+    }
 
     .btn-google {
       background: #1d4ed8;
@@ -190,29 +246,23 @@
       display: none;
     }
 
-    .btn-google:hover { background: #1e40af; }
     .btn-google.show { display: flex; }
 
     .btn-outline {
       background: #ffffff;
       color: #475569;
       border: 1px solid #e2e8f0;
+      margin-bottom: 0;
     }
 
     .btn-outline:hover { background: #f8fafc; }
-
-    .divider {
-      border: none;
-      border-top: 1px solid #e2e8f0;
-      margin: 6px 0 16px;
-    }
 
     /* Error */
     .error {
       display: none;
       font-size: 13px;
       color: #dc2626;
-      margin-top: 8px;
+      margin-top: 6px;
       text-align: center;
     }
 
@@ -222,11 +272,10 @@
 <body>
   <div class="card">
 
+    <!-- Header -->
     <div class="header">
       <div class="icon-wrap">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-        </svg>
+        <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
       </div>
       <div class="header-text">
         <h1 id="restaurant-name">India Bulls Mega Mall</h1>
@@ -234,39 +283,70 @@
       </div>
     </div>
 
+    <!-- Stars -->
     <div class="stars">⭐⭐⭐⭐⭐</div>
 
-    <div class="section-label">Suggested Review</div>
+    <!-- Keyword Section 1: What did you visit for? -->
+    <div class="kw-section">
+      <div class="kw-label">What did you visit for? <span style="color:#cbd5e1;font-weight:400">(optional)</span></div>
+      <div class="chips" id="chips-visit">
+        <span class="chip" data-group="visit">Shopping</span>
+        <span class="chip" data-group="visit">Food Court</span>
+        <span class="chip" data-group="visit">Movies</span>
+        <span class="chip" data-group="visit">Family Outing</span>
+        <span class="chip" data-group="visit">Birthday</span>
+        <span class="chip" data-group="visit">Anniversary</span>
+        <span class="chip" data-group="visit">Hangout</span>
+      </div>
+    </div>
 
-    <!-- Loading -->
+    <!-- Keyword Section 2: What did you like? -->
+    <div class="kw-section">
+      <div class="kw-label">What did you like? <span style="color:#cbd5e1;font-weight:400">(optional)</span></div>
+      <div class="chips" id="chips-like">
+        <span class="chip" data-group="like">Food Quality</span>
+        <span class="chip" data-group="like">Service</span>
+        <span class="chip" data-group="like">Ambience</span>
+        <span class="chip" data-group="like">Cleanliness</span>
+        <span class="chip" data-group="like">Variety</span>
+        <span class="chip" data-group="like">Value for Money</span>
+        <span class="chip" data-group="like">Staff</span>
+        <span class="chip" data-group="like">Parking</span>
+        <span class="chip" data-group="like">Kids Area</span>
+      </div>
+    </div>
+
+    <hr />
+
+    <!-- Generate Button -->
+    <button class="btn btn-primary" id="generate-btn" onclick="generateReview()">
+      Generate Review
+    </button>
+
+    <!-- Generated Review -->
+    <div class="section-label" id="review-label" style="display:none">Generated Review</div>
+
     <div class="loader" id="loader">
       <div class="spinner"></div>
       Generating your review...
     </div>
 
-    <!-- Review -->
     <div class="review-box" id="review-box">
       <span class="copied-badge" id="copied-badge">✓ Copied</span>
       <p id="review-text"></p>
     </div>
 
-    <!-- Step hint -->
     <div class="step-hint" id="step-hint">
-      ✓ Review copied to clipboard — paste it on Google Maps and tap Post.
+      ✓ Review copied — open Google Maps, paste it and tap Post.
     </div>
 
-    <!-- Buttons -->
-    <button class="btn btn-primary" id="copy-btn" onclick="copyReview()">
-      Copy Review
-    </button>
+    <button class="btn btn-copy" id="copy-btn" onclick="copyReview()">Copy Review</button>
 
     <a class="btn btn-google" id="google-btn" href="#" target="_blank">
       Open Google Maps to Post →
     </a>
 
-    <hr class="divider" />
-
-    <button class="btn btn-outline" onclick="generateNew()">
+    <button class="btn btn-outline" id="regen-btn" style="display:none" onclick="generateReview()">
       ↺ &nbsp;Generate Different Review
     </button>
 
@@ -282,28 +362,46 @@
     document.getElementById("restaurant-name").textContent = RESTAURANT_DISPLAY_NAME;
     document.getElementById("google-btn").href = GOOGLE_MAPS_REVIEW_URL;
 
+    // Chip toggle
+    document.querySelectorAll(".chip").forEach(chip => {
+      chip.addEventListener("click", () => chip.classList.toggle("active"));
+    });
+
+    function getSelectedKeywords() {
+      return Array.from(document.querySelectorAll(".chip.active"))
+        .map(c => c.textContent.trim());
+    }
+
     async function generateReview() {
-      document.getElementById("loader").style.display = "flex";
+      const keywords = getSelectedKeywords();
+
+      // UI reset
+      document.getElementById("loader").classList.add("show");
+      document.getElementById("review-label").style.display = "none";
       document.getElementById("review-box").classList.remove("show");
       document.getElementById("step-hint").classList.remove("show");
       document.getElementById("copy-btn").style.display = "none";
       document.getElementById("google-btn").classList.remove("show");
+      document.getElementById("regen-btn").style.display = "none";
       document.getElementById("copied-badge").classList.remove("show");
       document.getElementById("error-msg").classList.remove("show");
       document.getElementById("copy-btn").textContent = "Copy Review";
+      document.getElementById("generate-btn").style.display = "none";
 
       try {
-        const res = await fetch("/api/review");
+        const params = keywords.length ? `?keywords=${encodeURIComponent(keywords.join(","))}` : "";
+        const res = await fetch(`/api/review${params}`);
         const data = await res.json();
         if (data.error) throw new Error(data.error);
 
         currentReview = data.review;
         document.getElementById("review-text").textContent = currentReview;
-        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader").classList.remove("show");
+        document.getElementById("review-label").style.display = "block";
         document.getElementById("review-box").classList.add("show");
         document.getElementById("google-btn").classList.add("show");
+        document.getElementById("regen-btn").style.display = "flex";
 
-        // Try auto-copy
         try {
           await navigator.clipboard.writeText(currentReview);
           document.getElementById("copied-badge").classList.add("show");
@@ -313,7 +411,8 @@
         }
 
       } catch (err) {
-        document.getElementById("loader").style.display = "none";
+        document.getElementById("loader").classList.remove("show");
+        document.getElementById("generate-btn").style.display = "flex";
         document.getElementById("error-msg").textContent = "Could not generate review. Please try again.";
         document.getElementById("error-msg").classList.add("show");
       }
@@ -325,10 +424,6 @@
       document.getElementById("step-hint").classList.add("show");
       document.getElementById("copy-btn").textContent = "✓ Copied";
     }
-
-    function generateNew() { generateReview(); }
-
-    generateReview();
   </script>
 </body>
 </html>
