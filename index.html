@@ -3,71 +3,108 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Leave a Review ⭐</title>
+  <title>Leave a Review</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Inter', sans-serif;
+      background: #f0f4f8;
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 20px;
+      padding: 24px;
     }
 
     .card {
-      background: white;
-      border-radius: 24px;
-      padding: 36px 28px;
-      max-width: 420px;
+      background: #ffffff;
+      border-radius: 16px;
+      padding: 40px 36px;
+      max-width: 440px;
       width: 100%;
-      text-align: center;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
     }
 
-    .logo {
-      font-size: 48px;
-      margin-bottom: 8px;
+    /* Header */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 28px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid #e2e8f0;
     }
 
-    h1 {
-      font-size: 22px;
-      color: #1a1a2e;
-      margin-bottom: 6px;
-    }
-
-    .subtitle {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 24px;
-    }
-
-    .stars {
-      font-size: 36px;
-      letter-spacing: 4px;
-      margin-bottom: 20px;
-    }
-
-    /* Loading State */
-    .loader {
+    .icon-wrap {
+      width: 48px;
+      height: 48px;
+      background: #1d4ed8;
+      border-radius: 12px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      color: #764ba2;
-      font-size: 15px;
-      margin: 20px 0;
+      flex-shrink: 0;
+    }
+
+    .icon-wrap svg {
+      width: 24px;
+      height: 24px;
+      fill: white;
+    }
+
+    .header-text h1 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #0f172a;
+      letter-spacing: -0.3px;
+    }
+
+    .header-text p {
+      font-size: 13px;
+      color: #64748b;
+      margin-top: 2px;
+      font-weight: 400;
+    }
+
+    /* Stars */
+    .stars {
+      text-align: center;
+      font-size: 28px;
+      letter-spacing: 3px;
+      margin-bottom: 20px;
+    }
+
+    /* Label */
+    .section-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #94a3b8;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 8px;
+    }
+
+    /* Loading */
+    .loader {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #475569;
+      font-size: 14px;
+      padding: 16px 0;
     }
 
     .spinner {
-      width: 20px;
-      height: 20px;
-      border: 3px solid #e0d7f5;
-      border-top-color: #764ba2;
+      width: 18px;
+      height: 18px;
+      border: 2px solid #e2e8f0;
+      border-top-color: #1d4ed8;
       border-radius: 50%;
-      animation: spin 0.8s linear infinite;
+      animation: spin 0.75s linear infinite;
+      flex-shrink: 0;
     }
 
     @keyframes spin { to { transform: rotate(360deg); } }
@@ -75,86 +112,108 @@
     /* Review Box */
     .review-box {
       display: none;
-      background: #f8f7ff;
-      border: 2px solid #e0d7f5;
-      border-radius: 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 10px;
       padding: 16px;
-      font-size: 15px;
-      color: #333;
-      line-height: 1.6;
-      text-align: left;
-      margin-bottom: 18px;
+      font-size: 14px;
+      color: #334155;
+      line-height: 1.7;
+      margin-bottom: 20px;
       position: relative;
     }
 
     .review-box.show { display: block; }
 
-    .copy-badge {
+    .copied-badge {
       display: none;
       position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #22c55e;
+      top: 12px;
+      right: 12px;
+      background: #16a34a;
       color: white;
       font-size: 11px;
-      padding: 3px 8px;
-      border-radius: 20px;
       font-weight: 600;
+      padding: 2px 8px;
+      border-radius: 20px;
     }
 
-    .copy-badge.show { display: block; }
+    .copied-badge.show { display: block; }
+
+    /* Step hint */
+    .step-hint {
+      display: none;
+      font-size: 13px;
+      color: #1d4ed8;
+      font-weight: 500;
+      margin-bottom: 16px;
+      padding: 10px 14px;
+      background: #eff6ff;
+      border-radius: 8px;
+      border: 1px solid #bfdbfe;
+    }
+
+    .step-hint.show { display: block; }
 
     /* Buttons */
     .btn {
-      display: block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
       width: 100%;
-      padding: 14px;
-      border-radius: 12px;
+      padding: 12px 16px;
+      border-radius: 10px;
       border: none;
-      font-size: 16px;
+      font-size: 14px;
       font-weight: 600;
+      font-family: 'Inter', sans-serif;
       cursor: pointer;
       text-decoration: none;
+      transition: opacity 0.15s, transform 0.1s;
       margin-bottom: 10px;
-      transition: transform 0.15s, opacity 0.15s;
     }
 
-    .btn:active { transform: scale(0.97); }
+    .btn:active { transform: scale(0.98); }
 
     .btn-primary {
-      background: linear-gradient(135deg, #667eea, #764ba2);
-      color: white;
+      background: #1d4ed8;
+      color: #ffffff;
+      display: none;
     }
+
+    .btn-primary:hover { background: #1e40af; }
 
     .btn-google {
-      background: #4285F4;
-      color: white;
+      background: #1d4ed8;
+      color: #ffffff;
       display: none;
     }
 
-    .btn-google.show { display: block; }
+    .btn-google:hover { background: #1e40af; }
+    .btn-google.show { display: flex; }
 
-    .btn-secondary {
-      background: #f0f0f0;
-      color: #555;
-      font-size: 13px;
+    .btn-outline {
+      background: #ffffff;
+      color: #475569;
+      border: 1px solid #e2e8f0;
     }
 
-    .step-text {
-      display: none;
-      color: #764ba2;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 12px;
+    .btn-outline:hover { background: #f8fafc; }
+
+    .divider {
+      border: none;
+      border-top: 1px solid #e2e8f0;
+      margin: 6px 0 16px;
     }
 
-    .step-text.show { display: block; }
-
+    /* Error */
     .error {
       display: none;
-      color: #e53e3e;
       font-size: 13px;
-      margin-top: 10px;
+      color: #dc2626;
+      margin-top: 8px;
+      text-align: center;
     }
 
     .error.show { display: block; }
@@ -162,50 +221,61 @@
 </head>
 <body>
   <div class="card">
-    <div class="logo">🍽️</div>
-    <h1 id="restaurant-name">Loading...</h1>
-    <p class="subtitle">Your feedback means the world to us!</p>
+
+    <div class="header">
+      <div class="icon-wrap">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+        </svg>
+      </div>
+      <div class="header-text">
+        <h1 id="restaurant-name">India Bulls Mega Mall</h1>
+        <p>Share your experience with others</p>
+      </div>
+    </div>
 
     <div class="stars">⭐⭐⭐⭐⭐</div>
+
+    <div class="section-label">Suggested Review</div>
 
     <!-- Loading -->
     <div class="loader" id="loader">
       <div class="spinner"></div>
-      Crafting your review...
+      Generating your review...
     </div>
 
-    <!-- Review Box -->
+    <!-- Review -->
     <div class="review-box" id="review-box">
-      <span class="copy-badge" id="copy-badge">✓ Copied!</span>
+      <span class="copied-badge" id="copied-badge">✓ Copied</span>
       <p id="review-text"></p>
     </div>
 
     <!-- Step hint -->
-    <p class="step-text" id="step-text">
-      📋 Review copied! Now tap below → paste it → hit Post!
-    </p>
+    <div class="step-hint" id="step-hint">
+      ✓ Review copied to clipboard — paste it on Google Maps and tap Post.
+    </div>
 
     <!-- Buttons -->
-    <button class="btn btn-primary" id="copy-btn" onclick="copyReview()" style="display:none">
-      📋 Copy Review
+    <button class="btn btn-primary" id="copy-btn" onclick="copyReview()">
+      Copy Review
     </button>
 
     <a class="btn btn-google" id="google-btn" href="#" target="_blank">
-      ⭐ Open Google Maps to Post
+      Open Google Maps to Post →
     </a>
 
-    <button class="btn btn-secondary" onclick="generateNew()">
-      🔄 Generate Different Review
+    <hr class="divider" />
+
+    <button class="btn btn-outline" onclick="generateNew()">
+      ↺ &nbsp;Generate Different Review
     </button>
 
     <p class="error" id="error-msg"></p>
   </div>
 
   <script>
-    // ─────────────────────────────────────────────
     const GOOGLE_MAPS_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJxS48bRiLOR8RuEqn51uD6MU";
     const RESTAURANT_DISPLAY_NAME = "India Bulls Mega Mall";
-    // ─────────────────────────────────────────────
 
     let currentReview = "";
 
@@ -213,63 +283,51 @@
     document.getElementById("google-btn").href = GOOGLE_MAPS_REVIEW_URL;
 
     async function generateReview() {
-      // Reset UI
       document.getElementById("loader").style.display = "flex";
       document.getElementById("review-box").classList.remove("show");
+      document.getElementById("step-hint").classList.remove("show");
       document.getElementById("copy-btn").style.display = "none";
       document.getElementById("google-btn").classList.remove("show");
-      document.getElementById("step-text").classList.remove("show");
-      document.getElementById("copy-badge").classList.remove("show");
+      document.getElementById("copied-badge").classList.remove("show");
       document.getElementById("error-msg").classList.remove("show");
+      document.getElementById("copy-btn").textContent = "Copy Review";
 
       try {
         const res = await fetch("/api/review");
         const data = await res.json();
-
         if (data.error) throw new Error(data.error);
 
         currentReview = data.review;
         document.getElementById("review-text").textContent = currentReview;
         document.getElementById("loader").style.display = "none";
         document.getElementById("review-box").classList.add("show");
-        document.getElementById("copy-btn").style.display = "block";
         document.getElementById("google-btn").classList.add("show");
 
-        // Auto-copy
-        autoCopy();
+        // Try auto-copy
+        try {
+          await navigator.clipboard.writeText(currentReview);
+          document.getElementById("copied-badge").classList.add("show");
+          document.getElementById("step-hint").classList.add("show");
+        } catch {
+          document.getElementById("copy-btn").style.display = "flex";
+        }
 
       } catch (err) {
         document.getElementById("loader").style.display = "none";
-        document.getElementById("error-msg").textContent = "⚠️ Couldn't generate review. Try again!";
+        document.getElementById("error-msg").textContent = "Could not generate review. Please try again.";
         document.getElementById("error-msg").classList.add("show");
-        document.getElementById("copy-btn").style.display = "none";
-      }
-    }
-
-    async function autoCopy() {
-      try {
-        await navigator.clipboard.writeText(currentReview);
-        document.getElementById("copy-badge").classList.add("show");
-        document.getElementById("step-text").classList.add("show");
-        document.getElementById("copy-btn").textContent = "✅ Copied!";
-      } catch {
-        // If auto-copy fails (some browsers require user gesture), show manual copy button
-        document.getElementById("copy-btn").style.display = "block";
       }
     }
 
     async function copyReview() {
       await navigator.clipboard.writeText(currentReview);
-      document.getElementById("copy-badge").classList.add("show");
-      document.getElementById("step-text").classList.add("show");
-      document.getElementById("copy-btn").textContent = "✅ Copied!";
+      document.getElementById("copied-badge").classList.add("show");
+      document.getElementById("step-hint").classList.add("show");
+      document.getElementById("copy-btn").textContent = "✓ Copied";
     }
 
-    function generateNew() {
-      generateReview();
-    }
+    function generateNew() { generateReview(); }
 
-    // Start on load
     generateReview();
   </script>
 </body>
