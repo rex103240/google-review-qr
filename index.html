@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leave a Review ⭐</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 24px;
+      padding: 36px 28px;
+      max-width: 420px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    .logo {
+      font-size: 48px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 22px;
+      color: #1a1a2e;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+
+    .stars {
+      font-size: 36px;
+      letter-spacing: 4px;
+      margin-bottom: 20px;
+    }
+
+    /* Loading State */
+    .loader {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: #764ba2;
+      font-size: 15px;
+      margin: 20px 0;
+    }
+
+    .spinner {
+      width: 20px;
+      height: 20px;
+      border: 3px solid #e0d7f5;
+      border-top-color: #764ba2;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Review Box */
+    .review-box {
+      display: none;
+      background: #f8f7ff;
+      border: 2px solid #e0d7f5;
+      border-radius: 14px;
+      padding: 16px;
+      font-size: 15px;
+      color: #333;
+      line-height: 1.6;
+      text-align: left;
+      margin-bottom: 18px;
+      position: relative;
+    }
+
+    .review-box.show { display: block; }
+
+    .copy-badge {
+      display: none;
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #22c55e;
+      color: white;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      font-weight: 600;
+    }
+
+    .copy-badge.show { display: block; }
+
+    /* Buttons */
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 14px;
+      border-radius: 12px;
+      border: none;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      margin-bottom: 10px;
+      transition: transform 0.15s, opacity 0.15s;
+    }
+
+    .btn:active { transform: scale(0.97); }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .btn-google {
+      background: #4285F4;
+      color: white;
+      display: none;
+    }
+
+    .btn-google.show { display: block; }
+
+    .btn-secondary {
+      background: #f0f0f0;
+      color: #555;
+      font-size: 13px;
+    }
+
+    .step-text {
+      display: none;
+      color: #764ba2;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .step-text.show { display: block; }
+
+    .error {
+      display: none;
+      color: #e53e3e;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .error.show { display: block; }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="logo">🍽️</div>
+    <h1 id="restaurant-name">Loading...</h1>
+    <p class="subtitle">Your feedback means the world to us!</p>
+
+    <div class="stars">⭐⭐⭐⭐⭐</div>
+
+    <!-- Loading -->
+    <div class="loader" id="loader">
+      <div class="spinner"></div>
+      Crafting your review...
+    </div>
+
+    <!-- Review Box -->
+    <div class="review-box" id="review-box">
+      <span class="copy-badge" id="copy-badge">✓ Copied!</span>
+      <p id="review-text"></p>
+    </div>
+
+    <!-- Step hint -->
+    <p class="step-text" id="step-text">
+      📋 Review copied! Now tap below → paste it → hit Post!
+    </p>
+
+    <!-- Buttons -->
+    <button class="btn btn-primary" id="copy-btn" onclick="copyReview()" style="display:none">
+      📋 Copy Review
+    </button>
+
+    <a class="btn btn-google" id="google-btn" href="#" target="_blank">
+      ⭐ Open Google Maps to Post
+    </a>
+
+    <button class="btn btn-secondary" onclick="generateNew()">
+      🔄 Generate Different Review
+    </button>
+
+    <p class="error" id="error-msg"></p>
+  </div>
+
+  <script>
+    // ─────────────────────────────────────────────
+    const GOOGLE_MAPS_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJxS48bRiLOR8RuEqn51uD6MU";
+    const RESTAURANT_DISPLAY_NAME = "India Bulls Mega Mall";
+    // ─────────────────────────────────────────────
+
+    let currentReview = "";
+
+    document.getElementById("restaurant-name").textContent = RESTAURANT_DISPLAY_NAME;
+    document.getElementById("google-btn").href = GOOGLE_MAPS_REVIEW_URL;
+
+    async function generateReview() {
+      // Reset UI
+      document.getElementById("loader").style.display = "flex";
+      document.getElementById("review-box").classList.remove("show");
+      document.getElementById("copy-btn").style.display = "none";
+      document.getElementById("google-btn").classList.remove("show");
+      document.getElementById("step-text").classList.remove("show");
+      document.getElementById("copy-badge").classList.remove("show");
+      document.getElementById("error-msg").classList.remove("show");
+
+      try {
+        const res = await fetch("/api/review");
+        const data = await res.json();
+
+        if (data.error) throw new Error(data.error);
+
+        currentReview = data.review;
+        document.getElementById("review-text").textContent = currentReview;
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("review-box").classList.add("show");
+        document.getElementById("copy-btn").style.display = "block";
+        document.getElementById("google-btn").classList.add("show");
+
+        // Auto-copy
+        autoCopy();
+
+      } catch (err) {
+        document.getElementById("loader").style.display = "none";
+        document.getElementById("error-msg").textContent = "⚠️ Couldn't generate review. Try again!";
+        document.getElementById("error-msg").classList.add("show");
+        document.getElementById("copy-btn").style.display = "none";
+      }
+    }
+
+    async function autoCopy() {
+      try {
+        await navigator.clipboard.writeText(currentReview);
+        document.getElementById("copy-badge").classList.add("show");
+        document.getElementById("step-text").classList.add("show");
+        document.getElementById("copy-btn").textContent = "✅ Copied!";
+      } catch {
+        // If auto-copy fails (some browsers require user gesture), show manual copy button
+        document.getElementById("copy-btn").style.display = "block";
+      }
+    }
+
+    async function copyReview() {
+      await navigator.clipboard.writeText(currentReview);
+      document.getElementById("copy-badge").classList.add("show");
+      document.getElementById("step-text").classList.add("show");
+      document.getElementById("copy-btn").textContent = "✅ Copied!";
+    }
+
+    function generateNew() {
+      generateReview();
+    }
+
+    // Start on load
+    generateReview();
+  </script>
+</body>
+</html>
