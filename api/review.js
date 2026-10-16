@@ -13,10 +13,10 @@ export default async function handler(req, res) {
     });
   }
 
-  const RESTAURANT_NAME = process.env.RESTAURANT_NAME || "India Bulls Mega Mall";
-  const RESTAURANT_TYPE = process.env.RESTAURANT_TYPE || "shopping mall and food court";
+  const RESTAURANT_NAME = process.env.RESTAURANT_NAME || "Dyota By The Culture Heritage";
+  const RESTAURANT_TYPE = process.env.RESTAURANT_TYPE || "luxury restaurant, lounge and club in Jodhpur";
   const RESTAURANT_SPECIALTY =
-    process.env.RESTAURANT_SPECIALTY || "variety of food options, shopping, and entertainment";
+    process.env.RESTAURANT_SPECIALTY || "vibrant nightlife, multi-cuisine dining, craft cocktails, live music, and exceptional ambience";
 
   const rawKeywords = req.query?.keywords || "";
   const keywords = rawKeywords ? rawKeywords.split(",").map(k => k.trim()).filter(Boolean) : [];
