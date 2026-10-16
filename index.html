@@ -174,21 +174,37 @@
 
     .review-box.show { display: block; }
 
-    .copied-badge {
+    .review-header {
       display: none;
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: #16a34a;
-      color: white;
-      font-size: 10.5px;
-      font-weight: 600;
-      padding: 2px 8px;
-      border-radius: 20px;
-      letter-spacing: 0.2px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
     }
 
-    .copied-badge.show { display: block; }
+    .review-header.show {
+      display: flex;
+    }
+
+    .copied-badge {
+      opacity: 0;
+      transform: translateY(-2px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+      font-size: 11.5px;
+      font-weight: 600;
+      padding: 2px 10px;
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      pointer-events: none;
+    }
+
+    .copied-badge.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
 
     /* Step hint */
     .step-hint {
@@ -323,8 +339,11 @@
       Generate Review
     </button>
 
-    <!-- Generated Review -->
-    <div class="section-label" id="review-label" style="display:none">Generated Review</div>
+    <!-- Generated Review Header -->
+    <div class="review-header" id="review-header">
+      <span class="section-label" style="margin-bottom: 0;">Generated Review</span>
+      <span class="copied-badge" id="copied-badge">✓ Copied</span>
+    </div>
 
     <div class="loader" id="loader">
       <div class="spinner"></div>
@@ -332,7 +351,6 @@
     </div>
 
     <div class="review-box" id="review-box">
-      <span class="copied-badge" id="copied-badge">✓ Copied</span>
       <p id="review-text"></p>
     </div>
 
@@ -377,7 +395,7 @@
 
       // UI reset
       document.getElementById("loader").classList.add("show");
-      document.getElementById("review-label").style.display = "none";
+      document.getElementById("review-header").classList.remove("show");
       document.getElementById("review-box").classList.remove("show");
       document.getElementById("step-hint").classList.remove("show");
       document.getElementById("copy-btn").style.display = "none";
@@ -397,7 +415,7 @@
         currentReview = data.review;
         document.getElementById("review-text").textContent = currentReview;
         document.getElementById("loader").classList.remove("show");
-        document.getElementById("review-label").style.display = "block";
+        document.getElementById("review-header").classList.add("show");
         document.getElementById("review-box").classList.add("show");
         document.getElementById("google-btn").classList.add("show");
         document.getElementById("regen-btn").style.display = "flex";
