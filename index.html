@@ -359,7 +359,7 @@
 
     <button class="btn btn-copy" id="copy-btn" onclick="copyReview()">Copy Review</button>
 
-    <a class="btn btn-google" id="google-btn" href="#" target="_blank">
+    <a class="btn btn-google" id="google-btn" href="https://search.google.com/local/writereview?placeid=ChIJYZR74O6LQTkRPkT6NYAytd4" onclick="openReview(event)">
       Open Google Maps to Post →
     </a>
 
@@ -371,13 +371,32 @@
   </div>
 
   <script>
-    const GOOGLE_MAPS_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJYZR74O6LQTkRPkT6NYAytd4";
+    const PLACE_ID = "ChIJYZR74O6LQTkRPkT6NYAytd4";
+    const GOOGLE_MAPS_REVIEW_URL = "https://search.google.com/local/writereview?placeid=" + PLACE_ID;
     const RESTAURANT_DISPLAY_NAME = "Dyota By The Culture Heritage";
 
     let currentReview = "";
 
     document.getElementById("restaurant-name").textContent = RESTAURANT_DISPLAY_NAME;
-    document.getElementById("google-btn").href = GOOGLE_MAPS_REVIEW_URL;
+
+    async function openReview(e) {
+      if (currentReview) {
+        try {
+          await navigator.clipboard.writeText(currentReview);
+        } catch (_) {}
+      }
+
+      const isAndroid = /android/i.test(navigator.userAgent);
+      const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+
+      if (isAndroid) {
+        if (e) e.preventDefault();
+        window.location.href = `intent://search.google.com/local/writereview?placeid=${PLACE_ID}#Intent;scheme=https;package=com.google.android.apps.maps;S.browser_fallback_url=${encodeURIComponent(GOOGLE_MAPS_REVIEW_URL)};end`;
+      } else if (isIOS) {
+        if (e) e.preventDefault();
+        window.location.href = GOOGLE_MAPS_REVIEW_URL;
+      }
+    }
 
     // Chip toggle
     document.querySelectorAll(".chip").forEach(chip => {
